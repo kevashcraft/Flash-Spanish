@@ -20,7 +20,7 @@ export default {
     FlashCard
   },
   created() {
-    this.$http.get('/spanish-uno.json').then(resp => {
+    this.$http.get('spanish-uno.json').then(resp => {
       let data = resp.data;
       this.all_cards = data;
       this.nextCard()
