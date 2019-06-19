@@ -20,8 +20,8 @@ RUN npm ci
 
 COPY app/babel.config.js .
 COPY app/vue.config.js .
-COPY app/public .
-COPY app/src .
+COPY app/public public
+COPY app/src src
 # ADD app /app
 
 CMD ["npm", "run", "serve"]
