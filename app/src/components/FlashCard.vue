@@ -1,8 +1,8 @@
 <template>
   <md-content class="flash-card md-elevation-6">
     <div class="header">
-      <canvas :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></canvas>
-      <canvas :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></canvas>
+      <svg :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></svg>
+      <svg :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></svg>
     </div>
     <div class="content">
       <!-- <div class="question">
@@ -26,8 +26,8 @@
       </div>
     </div>
     <div class="footer">
-      <canvas :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></canvas>
-      <canvas :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></canvas>
+      <svg :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></svg>
+      <svg :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></svg>
     </div>
   </md-content>
 </template>
@@ -96,7 +96,7 @@ p {
 }
 .content {
   display: flex;
-  margin-top: -50px;
+  /* margin-top: -50px; */
   flex: 1;
   flex-direction: column;
   justify-content: space-around;
