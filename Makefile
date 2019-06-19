@@ -21,7 +21,7 @@ prod_build:
 prod_push:
 	docker push kevashcraft/spanish-flash-kevapps:latest
 
-upgrade:
+upgrade: prod_build prod_push
 	helm upgrade spanish-flash ./helm --recreate-pods
 
 nc: build-no-cache
