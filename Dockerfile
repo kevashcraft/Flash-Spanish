@@ -15,11 +15,13 @@ RUN cd /tmp && \
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY app/package*.json ./
+COPY app/package.json ./
+COPY app/package-lock.json ./
 RUN npm ci
 
 COPY app/babel.config.js .
 COPY app/vue.config.js .
+COPY app/favicon.js .
 COPY app/public public
 COPY app/src src
 # ADD app /app

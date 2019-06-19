@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: kevashcraft/spanish-flash-kevapps
+  repository: kevashcraft/flash-spanish-kevapps
   tag: latest
   pullPolicy: Always
 
@@ -21,9 +21,11 @@ ingress:
   # path: /
   hosts:
     - spanish-flash.kevapps.com
+    - flash-spanish.kevapps.com
   tls:
-   - secretName: spanish-flash-kevapps-tls
+   - secretName: flash-spanish-kevapps-tls
      hosts:
+       - flash-spanish.kevapps.com
        - spanish-flash.kevapps.com
 
 resources: {}

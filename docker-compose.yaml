@@ -1,6 +1,6 @@
 version: '3'
 services:
-  spanish_flash:
+  flash_spanish:
     build: .
     ports:
       - 28080:8080
