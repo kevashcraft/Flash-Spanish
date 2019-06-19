@@ -68,7 +68,6 @@ p {
   user-select: none;
   margin: 0;
   /* padding: 2rem; */
-  border: 1px dashed white
 }
 .blurred {
   color: transparent;
@@ -96,12 +95,9 @@ p {
 }
 .content {
   display: flex;
-  /* margin-top: -50px; */
   flex: 1;
   flex-direction: column;
   justify-content: space-around;
-  /* justify-content: center; */
-  /* border: 1px solid blue; */
 }
 .question, .hint, .answer, .answer-block {
   font-size: 2rem;
@@ -118,20 +114,6 @@ p {
 }
 .answer {
   align-items: flex-start;
-}
-/* .question {
-  align-items: flex-end;
-}
-.hint {
-}
-.answer, .answer-block {
-  align-items: center;
-} */
-.block {
-  /* height: 100%;
-  width: 80%; */
-  border: 1px dashed black;
-  /* padding: 2rem; */
 }
 
 h3 {

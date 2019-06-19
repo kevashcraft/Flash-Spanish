@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" md-theme="dark">
     <div id="window" @click="showAnswer()">
       <transition-group name="list" class="card_container" tag="div">
         <FlashCard v-for="card in cards" :card="card" :key="card.index" ref="flashcard" @next="nextCard" />

@@ -1,12 +1,12 @@
 version: '3'
 services:
-  spanish_cards:
+  spanish_flash:
     build: .
     ports:
       - 28080:8080
     privileged: true
     volumes:
       # - /dev/bus/usb:/dev/bus/usb
-      - ./app:/app
-      # - ./app/src:/app/src
-      # - ./app/public:/app/public
+      # - ./app:/app
+      - ./app/src:/app/src
+      - ./app/public:/app/public

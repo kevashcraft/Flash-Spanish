@@ -15,8 +15,13 @@ RUN cd /tmp && \
 RUN mkdir -p /app
 WORKDIR /app
 
-ADD app /app
+COPY app/package*.json ./
+RUN npm ci
 
-RUN npm i
+COPY app/babel.config.js .
+COPY app/vue.config.js .
+COPY app/public .
+COPY app/src .
+# ADD app /app
 
 CMD ["npm", "run", "serve"]
