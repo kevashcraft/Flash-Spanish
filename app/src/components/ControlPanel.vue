@@ -4,7 +4,7 @@
       <md-switch v-model="darkMode">Dark Mode</md-switch>
       <md-field>
         <label for="mapIdx">mapIdx</label>
-        <md-input v-model="mapIdx" name="mapIdx" id="mapIdx" />
+        <md-input v-model="mapIdx" name="mapIdx" id="mapIdx" type="number" step="1"/>
       </md-field>
       <md-field>
         <label for="deck">Deck</label>
@@ -46,6 +46,7 @@ export default {
     },
     mapIdx: {
       get () {
+        if (!this.$store.state.deckMetas[this.$store.state.deck]) return -1
         return this.$store.state.deckMetas[this.$store.state.deck].mapIdx
       },
       set (idx) {

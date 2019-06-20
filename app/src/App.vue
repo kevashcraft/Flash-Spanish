@@ -1,9 +1,6 @@
 <template>
-  <div id="app">
-    <div id="window" @click="primary()"
-      v-long-press="300"
-      @long-press-start="flip()"
-      >
+  <div id="app" @click="primary()">
+    <div id="window" v-long-press="300" @long-press-start="flip()">
       <transition name="flip" class="page_container" tag="div">
         <FlashCards v-if="page === 'cards'" />
         <ControlPanel v-else />
@@ -21,7 +18,7 @@ import ControlPanel from './components/ControlPanel.vue'
 import FlashCards from './components/FlashCards.vue'
 
 import init1000Deck from './assets/spanish-uno.json'
-import numbersDeck from './assets/numbers.json'
+import verb100Deck from './assets/spanish-verbs-100.json'
 
 const decks = {
   'init1000': {
@@ -29,9 +26,9 @@ const decks = {
     label: 'Init 1K',
     version: 1
   },
-  'numbers': {
-    deck: numbersDeck,
-    label: 'Numbers',
+  'verb100': {
+    deck: verb100Deck,
+    label: '100 Spanish Verbs',
     version: 1
   },
 }
@@ -83,6 +80,10 @@ export default {
         metas[deckSlug].map = savedObj.map
         metas[deckSlug].mapIdx = savedObj.mapIdx
       }
+    }
+    if (this.deck === '' || !decks[this.deck]) {
+      let deck = Object.keys(decks)[0]
+      this.$store.commit('setDeck', deck)
     }
     this.$store.commit('setDeckMetas', metas)
     if (this.cards.length === 0) {
@@ -158,7 +159,7 @@ export default {
   animation: flip-in .8s;
 }
 .flip-leave-active {
-  animation: flip-out .4s;
+  animation: flip-out .3s;
 }
 .flip-enter-to {
   transform: rotateY(0)
@@ -170,9 +171,12 @@ export default {
   0% {
     transform: rotateY(-90deg)
   }
-  50% {
+  40% {
     transform: rotateY(-90deg)
   }
+  /* 60% {
+    transform: rotateY(-65deg)
+  } */
   100% {
     transform: rotateY(0)
   }
