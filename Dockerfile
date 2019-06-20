@@ -1,4 +1,4 @@
-FROM node:12.3.1-stretch
+FROM node:12.3.1-stretch as builder
 
 RUN npm i -g @vue/cli cordova
 

@@ -19,4 +19,4 @@ jdenticon.config = {
 
 let png = jdenticon.toPng(hash, size);
 
-fs.writeFileSync('public/favicon.ico', png);
+fs.writeFileSync('public/favicon.png', png);
