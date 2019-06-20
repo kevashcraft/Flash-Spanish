@@ -16,7 +16,7 @@
       </div>
       <div class="answer">
         <div v-if="card.answerType === 'text'">
-          <p v-if="isAnswerShowing">{{ card.answerText }}</p>
+          <p v-if="card.isAnswerShowing">{{ card.answerText }}</p>
           <p v-else class="blurred">{{ card.answerText }}</p>
           <!-- <p v-else class="block">Click to Show</p> -->
         </div>
@@ -38,25 +38,11 @@ export default {
   props: {
     card: Object
   },
-  computed: {
-
-  },
   mounted () {
     window.jdenticon()
   },
-  methods: {
-    showAnswer(event) {
-      event.stopPropagation()
-      if (!this.isAnswerShowing) {
-        this.isAnswerShowing = true;
-      } else {
-        this.$emit('next');
-      }
-    }
-  },
   data () {
     return {
-      isAnswerShowing: false,
       iconSize: 120,
     }
   }

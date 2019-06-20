@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: kevashcraft/flash-spanish-kevapps
+  repository: kevashcraft/flash-spanish
   tag: latest
   pullPolicy: Always
 

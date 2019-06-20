@@ -1,72 +1,114 @@
 <template>
-  <div id="app" md-theme="dark">
-    <div id="window" @click="showAnswer()">
-      <transition-group name="list" class="card_container" tag="div">
-        <FlashCard v-for="card in cards" :card="card" :key="card.index" ref="flashcard" @next="nextCard" />
-      </transition-group>
-      <!-- <ControlPanel class="control-panel" /> -->
+  <div id="app">
+    <div id="window" @click="primary()"
+      v-long-press="300"
+      @long-press-start="flip()"
+      >
+      <transition name="flip" class="page_container" tag="div">
+        <FlashCards v-if="page === 'cards'" />
+        <ControlPanel v-else />
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
+import LongPress from 'vue-directive-long-press'
+
 import ControlPanel from './components/ControlPanel.vue'
-import FlashCard from './components/FlashCard.vue'
+import FlashCards from './components/FlashCards.vue'
+
+import init1000Deck from './assets/spanish-uno.json'
+import numbersDeck from './assets/numbers.json'
+
+const decks = {
+  'init1000': {
+    deck: init1000Deck,
+    label: 'Init 1K',
+    version: 1
+  },
+  'numbers': {
+    deck: numbersDeck,
+    label: 'Numbers',
+    version: 1
+  },
+}
 
 export default {
   name: 'app',
   components: {
     ControlPanel,
-    FlashCard
+    FlashCards
+  },
+  directives: {
+    'long-press': LongPress
+  },
+  computed: mapState(['theme', 'page', 'cardIdx', 'deck', 'cards']),
+  watch: {
+    cardIdx (idx) {
+      if (idx >= 0) {
+        let deck = decks[this.deck].deck
+        if (idx < deck.length) {
+          let card = deck[idx]
+          card.isAnswerShowing = false
+          this.$store.commit('setCard', card)
+        }
+      }
+    },
+    theme (theme) {
+      this.$material.theming.theme = theme
+    }
   },
   created() {
-    this.$http.get('spanish-uno.json').then(resp => {
-      let data = resp.data;
-      this.all_cards = data;
-      this.nextCard()
-    });
+    this.$material.theming.theme = this.$store.state.theme
+    var metas = {}
+    var savedMetas = this.$store.state.deckMetas
+    // loop through all decks to set metadata
+    for (let deckSlug in decks) {
+      // get deck and saved data (none if on first load)
+      let deckObj = decks[deckSlug]
+      let savedObj = savedMetas[deckSlug]
+      // set length and label from above
+      metas[deckSlug] = {
+        length: deckObj.deck.length,
+        label: deckObj.label
+      }
+      // check if there's nothing saved or if above version is newer
+      if (!savedObj || deckObj.version > savedObj.version) {
+        metas[deckSlug].map = [...Array(deckObj.deck.length).keys()]
+        metas[deckSlug].mapIdx = 0
+      } else {
+        metas[deckSlug].map = savedObj.map
+        metas[deckSlug].mapIdx = savedObj.mapIdx
+      }
+    }
+    this.$store.commit('setDeckMetas', metas)
+    if (this.cards.length === 0) {
+      this.$store.commit('incMapIdx')
+    }
+
     window.addEventListener('keyup', event => {
       // left-arrow, up-arrow
       if (event.keyCode === 37 || event.keyCode === 38) {
-        this.prevCard();
+        this.back();
       }
       // right-arrow
       if (event.keyCode === 39) {
-        this.nextCard();
+        this.primary();
       }
       // space / down-arrow
       if (event.keyCode === 32 || event.keyCode === 40) {
-        this.showAnswer()
+        this.primary()
       }
     })
   },
   methods: {
-    showAnswer() {
-      let flashcard = this.$refs['flashcard'][0];
-      flashcard.showAnswer(event)
-    },
-    prevCard() {
-      if (this.idx > 0) {
-        this.idx--;
-        this.loadCard()
-      }
-    },
-    nextCard() {
-      this.idx++;
-      this.loadCard()
-    },
-    loadCard() {
-      let card = this.all_cards[this.idx];
-      card.isAnswerShowing = false;
-      this.cards = [card];
-    }
+    ...mapActions(['primary', 'back', 'flip'])
   },
   data() {
-    return {
-      idx:0,
-      cards:[],
-      all_cards: []
-    }
+    return {}
   }
 }
 </script>
@@ -85,63 +127,62 @@ export default {
   color: #2c3e50;
   display: flex;
   justify-content: center;
-  /* align-items: stretch;
-  align-content: stretch; */
 }
 #window {
+  position: relative;
   display: flex;
   flex: 1;
   max-width: 450px;
-  /* border: 1px dashed black; */
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
 }
-
-.card_container {
+.page_container {
   position: relative;
   display: flex;
   flex: 1;
-  /* border: 1px dashed yellow; */
   justify-content: center;
   align-content: stretch;
   z-index: 1;
-
 }
-.control-panel {
-  z-index: 2;
-}
-/* .list-move {
-  transition: transform 1s;
-} */
-.list-item {
-  display: block;
-  height: 300px;
-  width: 200px;
-  /* border: 1px solid pink; */
-  /* margin-right: 10px; */
-}
-.list-leave-active {
-  transition: all .5s;
-}
-.list-enter-active {
-  transition: all .3s;
-}
-/* .list-enter {
-  opacity: 0;
-} */
-.list-leave-to {
-  opacity: 0;
-}
-/* .list-enter {
-  transform: translateY(600px);
-} */
-.list-leave-to {
-  transform: translateX(-600px);
-}
-.list-leave-active {
+.flip-enter-active, .flip-leave-active {
+  animation-timing-function: ease;
   position: absolute;
-  height: 100%;
-  width: 100%
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.flip-enter-active {
+  transform: rotateY(-90deg);
+  animation: flip-in .8s;
+}
+.flip-leave-active {
+  animation: flip-out .4s;
+}
+.flip-enter-to {
+  transform: rotateY(0)
+}
+.flip-leave-to {
+  transform: rotateY(90deg)
+}
+@keyframes flip-in {
+  0% {
+    transform: rotateY(-90deg)
+  }
+  50% {
+    transform: rotateY(-90deg)
+  }
+  100% {
+    transform: rotateY(0)
+  }
+}
+@keyframes flip-out {
+  0% {
+    transform: rotateY(0)
+  }
+  100% {
+    transform: rotateY(90deg)
+  }
 }
 </style>
