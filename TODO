@@ -1,4 +1,6 @@
 Feature List:
+ - Separate Decks into individual files (so none are too big)
+ - Update Makefile to automatically build dist before cordova stuff
  - Add shuffle
  - Clean Control Panel
  - Control panel analytics (pie graph, cards today,week,total, more graphs)
