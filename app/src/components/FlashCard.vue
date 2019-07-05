@@ -5,24 +5,12 @@
       <svg :width="iconSize" :height="iconSize" :data-jdenticon-value="card.hash"></svg>
     </div>
     <div class="content">
-      <!-- <div class="question">
-        <p v-if="isAnswerShowing">{{ card.answerText }}</p>
-        <p v-else>{{ card.questionText }}</p>
-      </div> -->
+      <audio :src="card.audio" ref="audio" />
       <div class="question">
-        <div if="card.questionType === 'text'">
-          <p>{{ card.questionText }}</p>
+        <div if="card.questionType === 'text' && card.answerType === 'text'">
+          <p class="question-text">{{ card.questionText }}</p>
+          <p class="answer-text" :class="{blurred: !card.isAnswerShowing}">{{ card.answerText }}</p>
         </div>
-      </div>
-      <div class="answer">
-        <div v-if="card.answerType === 'text'">
-          <p v-if="card.isAnswerShowing">{{ card.answerText }}</p>
-          <p v-else class="blurred">{{ card.answerText }}</p>
-          <!-- <p v-else class="block">Click to Show</p> -->
-        </div>
-      </div>
-      <div class="hint">
-        <p v-if="card.hintType === 'text'">{{ card.hintText }}</p>
       </div>
     </div>
     <div class="footer">
@@ -40,6 +28,10 @@ export default {
   },
   mounted () {
     window.jdenticon()
+    this.$refs['audio'].play()
+  },
+  beforeDestroy () {
+    this.$refs['audio'].pause()
   },
   data () {
     return {
@@ -86,20 +78,22 @@ p {
   justify-content: space-around;
 }
 .question, .hint, .answer, .answer-block {
-  font-size: 2rem;
-  line-height: 5rem;
+  line-height: 4rem;
   display: flex;
   justify-content: center;
   min-height: 20%;
   align-items: flex-start;
   margin: 15px;
 }
-.question {
+.question-text {
   font-size: 4rem;
   font-weight: 800;
 }
 .answer {
   align-items: flex-start;
+}
+.answer-text {
+  font-size: 2rem;
 }
 
 h3 {

@@ -17,21 +17,19 @@ import LongPress from 'vue-directive-long-press'
 import ControlPanel from './components/ControlPanel.vue'
 import FlashCards from './components/FlashCards.vue'
 
-import init1000Deck from './assets/spanish-uno.json'
-import verb100Deck from './assets/spanish-verbs-100.json'
 
-const decks = {
-  'init1000': {
-    deck: init1000Deck,
-    label: 'Init 1K',
-    version: 1
-  },
-  'verb100': {
-    deck: verb100Deck,
-    label: '100 Spanish Verbs',
-    version: 1
-  },
-}
+import decks from './decks.json'
+// var decks = {}
+
+// for (let label in deckMeta) {
+//   let slug = deckMeta[label].slug
+//   let version = deckMeta[label].version
+//   decks[slug] = {
+//     deck: require(`./decks/${slug}.json`),
+//     label: label,
+//     version
+//   }
+// }
 
 export default {
   name: 'app',

@@ -2,11 +2,14 @@ version: '3'
 services:
   flash_spanish:
     build: .
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/secret/service-account.json
     ports:
       - 28080:8080
     privileged: true
     volumes:
       # - /dev/bus/usb:/dev/bus/usb
+      # - ./secret:/secret
       # - ./app:/app
       - ./app/src:/app/src
       - ./app/public:/app/public

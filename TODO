@@ -1,13 +1,11 @@
 Feature List:
- - Store deck data in google drive, pull on build
- - Add images
- - Add audio
  - Add shuffle
  - Clean Control Panel
+ - Control panel analytics (pie graph, cards today,week,total, more graphs)
+ - Add images
  - Write tests
  - Create iOS app
  - Create Hangul app
  - Add video support
  - Create sign language app
- - Control panel analytics (pie graph, cards today,week,total, more graphs)
  - Create electron Windows and OSX binaries
