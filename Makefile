@@ -33,7 +33,7 @@ cordova_build:
             -v $(shell pwd)/dist:/dist \
             -v $(shell pwd)/secret:/secret \
             -v $(shell pwd)/config.xml:/cordova/flash-spanish/config.xml \
-			flash_spanish_cordova bash -c "cp www/favicon.ico www/icon.png && cordova build android \
+			flash_spanish_cordova bash -c "cordova build android \
 			--release \
 			-- \
 			--keystore /secret/kevapps.pfx \

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.kevapps.flash_spanish" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.kevapps.flash_spanish" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>FlashSpanish</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -8,7 +8,12 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <icon src="www/icon.png" />
+    <!-- <icon src="res/android/ldpi.png" density="ldpi" /> -->
+    <icon src="res/mdpi.png" density="mdpi" />
+    <icon src="res/hdpi.png" density="hdpi" />
+    <icon src="res/xhdpi.png" density="xhdpi" />
+    <icon src="res/xxhdpi.png" density="xxhdpi" />
+    <icon src="res/xxxhdpi.png" density="xxxhdpi" /><!-- <icon src="www/icon.png" /> -->
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

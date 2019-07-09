@@ -1,6 +1,6 @@
 FROM node:12.3.1-stretch as builder
 
-RUN npm i -g @vue/cli cordova
+RUN npm i -g @vue/cli cordova cordova-icon
 
 RUN \
 apt-get update && \
@@ -35,8 +35,13 @@ RUN rm -rf /cordova/flash-spanish/www
 RUN mv /app/dist /cordova/flash-spanish/www
 
 WORKDIR /cordova/flash-spanish
-#RUN cordova telemetry off
+RUN cordova telemetry off
 RUN cordova platform add android
+RUN cp /app/favicon.png icon.png
+#RUN rm -rf platforms/android/app/src/main/res/drawable*
+#RUN rm -rf platforms/android/app/src/main/res/mipmap*
+COPY res res
+#RUN cordova-icon
 #RUN cordova platform rm android
 #RUN cordova platform add android
 #RUN cordova build

@@ -10,6 +10,6 @@ services:
     volumes:
       # - /dev/bus/usb:/dev/bus/usb
       # - ./secret:/secret
-      # - ./app:/app
-      - ./app/src:/app/src
-      - ./app/public:/app/public
+      - ./app:/app
+      # - ./app/src:/app/src
+      # - ./app/public:/app/public
