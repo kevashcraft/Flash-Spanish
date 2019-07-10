@@ -15,7 +15,7 @@ dev: down build
 down:
 	docker-compose -p flash_spanish_dev down -v
 
-cordova_bash_build:
+cordova_build:
 	docker build -t flash_spanish_cordova -f Dockerfile.cordova .
 
 cordova_bash:
@@ -27,7 +27,7 @@ cordova_bash:
             -e "keystore_pass=$(keystore_pass)" \
 			flash_spanish_cordova bash
 
-cordova_build:
+cordova: cordova_build
 	docker run \
             -it \
             -v $(shell pwd)/dist:/dist \

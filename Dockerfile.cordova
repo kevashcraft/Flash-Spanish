@@ -2,10 +2,9 @@ FROM node:12.3.1-stretch as builder
 
 RUN npm i -g @vue/cli cordova cordova-icon
 
-RUN \
-apt-get update && \
-apt-get install -y default-jdk-headless gradle android-sdk
-#  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y default-jdk-headless
+RUN apt-get install -y android-sdk
 
 RUN cd /tmp && \
   git clone https://github.com/Shadowstyler/android-sdk-licenses.git && \
@@ -24,9 +23,11 @@ COPY app/vue.config.js .
 COPY app/favicon.js .
 COPY app/public public
 COPY app/src src
-# ADD app /app
 
 RUN npm run build
+
+#RUN mv /usr/lib/android-sdk/build-tools/debian /usr/lib/android-sdk/build-tools/28.0.3 
+#RUN rm -rf /usr/lib/android-sdk/build-tools/24.0.0
 
 RUN mkdir -p /cordova
 WORKDIR /cordova
@@ -36,7 +37,7 @@ RUN mv /app/dist /cordova/flash-spanish/www
 
 WORKDIR /cordova/flash-spanish
 RUN cordova telemetry off
-RUN cordova platform add android
+RUN cordova platform add android@8.0.0
 RUN cp /app/favicon.png icon.png
 #RUN rm -rf platforms/android/app/src/main/res/drawable*
 #RUN rm -rf platforms/android/app/src/main/res/mipmap*
