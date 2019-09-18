@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <div v-for="card in cards">
+            <div>{{card.questionText}}</div>
+            <span v-for="img in card.images">
+                <!-- <img :src="img.gifImg" /> -->
+                <img :src="img.webImg" height="150" width="150" />
+            </span>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                cards: []
+            },
+            async created () {
+                let deckInfo = await axios.get('src/decks/25Prepositions.json')
+                // let deckInfo = await axios.get('src/decks/50ComputerTerms.json')
+                // let deckInfo = await axios.get('src/decks/25Verbs.json')
+                // let deckInfo = await axios.get('src/decks/25Nouns.json')
+                deckInfo = deckInfo.data
+                console.log("deckInfo", deckInfo)
+                // let cards = []
+                // for (let cardKey in deckInfo) {
+                //     console.log("deckInfo", deckInfo)
+                //     let card = deckInfo[cardKey]
+                //     cards.push(deckInfo[cardKey])
+                // }
+                this.cards = deckInfo
+                // let images = dInfo.data[0].deck[0]
+                // console.log("images", images)
+                // this.images = images.imgData
+                // console.log("dInfo", dInfo)
+
+            }
+        })        
+    </script>
+</body>
+</html>

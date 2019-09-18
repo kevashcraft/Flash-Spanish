@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^1.1.1",
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "googleapis": "^39.2.0",
     "jdenticon": "^2.1.1",
+    "request": "^2.88.0",
     "vue": "^2.6.10",
     "vue-directive-long-press": "^1.1.0",
     "vue-material": "^1.0.0-beta-11",

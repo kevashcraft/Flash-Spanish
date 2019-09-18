@@ -1,7 +1,7 @@
 <template>
-    <transition-group name="list" class="card_container" tag="div">
-        <FlashCard v-for="card in cards" :card="card" :key="card.index" />
-    </transition-group>
+  <transition-group name="list" class="card_container" tag="div">
+    <FlashCard v-for="card in cards" :card="card" :key="card.index" />
+  </transition-group>
 </template>
 
 <script>

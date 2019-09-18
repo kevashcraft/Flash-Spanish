@@ -1,6 +1,6 @@
 <template>
   <div id="app" @click="primary()">
-    <div id="window" v-long-press="300" @long-press-start="flip()">
+    <div id="window" v-long-press="1500" @long-press-start="flip()" @dblclick="dblclick">
       <transition name="flip" class="page_container" tag="div">
         <FlashCards v-if="page === 'cards'" />
         <ControlPanel v-else />
@@ -19,6 +19,7 @@ import FlashCards from './components/FlashCards.vue'
 
 
 import decks from './decks.json'
+// console.log('decks', decks)
 // var decks = {}
 
 // for (let label in deckMeta) {
@@ -47,7 +48,7 @@ export default {
         let deck = decks[this.deck].deck
         if (idx < deck.length) {
           let card = deck[idx]
-          card.isAnswerShowing = false
+          card.isAnswerShowing = true
           this.$store.commit('setCard', card)
         }
       }
@@ -60,7 +61,74 @@ export default {
     this.$material.theming.theme = this.$store.state.theme
     var metas = {}
     var savedMetas = this.$store.state.deckMetas
-    // loop through all decks to set metadata
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+  console.log("READY2!");  
+    console.log(cordova);
+    console.log('LocalFileSystem', LocalFileSystem);
+    function readFile(fileEntry) {
+
+        fileEntry.file(function (file) {
+            var reader = new FileReader();
+
+            reader.onloadend = function() {
+                console.log("Successful file read: " + this.result);
+                // displayFileData(fileEntry.fullPath + ": " + this.result);
+            };
+
+            reader.readAsText(file);
+
+        }, (e) => console.log("freee", e));
+    }
+function writeFile(fileEntry, dataObj) {
+      console.log("fileEntry", fileEntry);
+        // Create a FileWriter object for our FileEntry (log.txt).
+        fileEntry.createWriter(function (fileWriter) {
+
+            fileWriter.onwriteend = function() {
+                console.log("Successful file write...");
+            };
+
+            fileWriter.onerror = function (e) {
+                console.log("Failed file write: " + e.toString());
+            };
+
+            // If data object is not passed in,
+            // create a new Blob instead.
+            if (!dataObj) {
+                dataObj = new Blob(['some file data'], { type: 'text/plain' });
+            }
+
+            fileWriter.write(dataObj);
+        });
+    }
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+
+        console.log('file system open: ' + fs.name);
+        fs.root.getFile("newPersistentFile5.txt", { exclusive: false }, function (fileEntry) {
+
+            console.log("fileEntry", fileEntry.isFile)
+            // console.log("fileEntry is file?" + fileEntry.isFile.toString());
+                readFile(fileEntry);
+            // fileEntry.name == 'someFile.txt'
+            // fileEntry.fullPath == '/someFile.txt'
+
+        }, (e) => {
+          console.log("EEE1", e)
+            fs.root.getFile("newPersistentFile5.txt", { create: true, exclusive: false }, function (fe) {
+              writeFile(fe, null);
+            }, (ee) => console.log("ee", ee))
+        });
+
+    }, (e) => console.log("e2", e));
+
+
+}
+console.log("2");
+
+
+// loop through all decks to set metadata
     for (let deckSlug in decks) {
       // get deck and saved data (none if on first load)
       let deckObj = decks[deckSlug]
@@ -104,7 +172,16 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['primary', 'back', 'flip'])
+    ...mapActions(['primary', 'back', 'flip']),
+    dblclick () {
+      if (this.dblclickInterval) {
+        clearInterval(this.dblclickInterval)
+      } else {
+        this.dblclickInterval = setInterval (() => {
+          this.primary()
+        }, 1000)
+      }
+    }
   },
   data() {
     return {}

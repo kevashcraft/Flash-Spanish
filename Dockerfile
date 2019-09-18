@@ -13,6 +13,7 @@ RUN cd /tmp && \
   rm -rf android-sdk-licenses
 
 RUN mkdir -p /app
+RUN mkdir -p /secret
 WORKDIR /app
 
 COPY app/package.json ./
