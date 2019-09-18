@@ -1,6 +1,6 @@
 <template>
   <div id="app" @click="primary()">
-    <div id="window" v-long-press="300" @long-press-start="flip()">
+    <div id="window" v-long-press="1500" @long-press-start="flip()" @dblclick="dblclick">
       <transition name="flip" class="page_container" tag="div">
         <FlashCards v-if="page === 'cards'" />
         <ControlPanel v-else />
@@ -47,7 +47,7 @@ export default {
         let deck = decks[this.deck].deck
         if (idx < deck.length) {
           let card = deck[idx]
-          card.isAnswerShowing = false
+          card.isAnswerShowing = true
           this.$store.commit('setCard', card)
         }
       }
@@ -104,7 +104,16 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['primary', 'back', 'flip'])
+    ...mapActions(['primary', 'back', 'flip']),
+    dblclick () {
+      if (this.dblclickInterval) {
+        clearInterval(this.dblclickInterval)
+      } else {
+        this.dblclickInterval = setInterval (() => {
+          this.primary()
+        }, 1000)
+      }
+    }
   },
   data() {
     return {}

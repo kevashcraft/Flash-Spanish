@@ -1,16 +1,16 @@
 default: dev
 
-bash:
-	docker-compose -p flash_spanish_dev run flash_spanish bash
+bash: build_bash
+	docker-compose -p flash_spanish_dev run bash bash
+
+build_bash:
+	docker-compose -p flash_spanish_dev build bash
 
 build:
-	docker-compose -p flash_spanish_dev build
-
-build-no-cache:
-	docker-compose -p flash_spanish_dev build --no-cache
+	docker-compose -p flash_spanish_dev build flash_spanish
 
 dev: down build
-	docker-compose -p flash_spanish_dev up
+	docker-compose -p flash_spanish_dev up flash_spanish
 
 down:
 	docker-compose -p flash_spanish_dev down -v
@@ -50,7 +50,3 @@ prod_push: prod_build
 
 upgrade: prod_build prod_push
 	helm upgrade flash-spanish ./helm --recreate-pods
-
-nc: build-no-cache
-ncb: build-no-cache bash
-ncd: build-no-cache dev
